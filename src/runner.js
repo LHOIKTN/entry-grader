@@ -25,7 +25,7 @@ window.runCase = async function (project, inputs, timeoutMs) {
     construct(Target, args) {
       const dialog = Reflect.construct(Target, args);
       const [, message, mode] = args;
-      if (mode === "speak" || mode === "yell") {
+      if ((mode === "speak" || mode === "yell") && used === inputs.length) {
         last = String(message);
         outputs.push(last);
       } else if (mode === "ask") questions.push(String(message));
@@ -51,7 +51,7 @@ window.runCase = async function (project, inputs, timeoutMs) {
     return {
       status,
       detail,
-      actual: last,
+      actual: outputs.length ? outputs.join("\n") : null,
       inputsUsed: used,
       inputCount: inputs.length,
       outputs,
@@ -94,7 +94,7 @@ window.runCase = async function (project, inputs, timeoutMs) {
           "프로그램 종료 후 사용하지 않은 입력이 남았습니다.",
         );
       if (last === null)
-        return result("NO_OUTPUT", "말하기 말풍선이 출력되지 않았습니다.");
+        return result("NO_OUTPUT", "입력이 끝난 뒤 말하기 말풍선이 출력되지 않았습니다.");
       return result("COMPLETED");
     }
     await sleep(20);

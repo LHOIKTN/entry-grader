@@ -82,7 +82,7 @@ async function executeCase(project, test, timeoutMs) {
     );
     if (value.status === "COMPLETED")
       value.status =
-        normalizeOutput(value.actual).includes(test.expected) ? "PASS" : "FAIL";
+        (value.outputs || []).some(message => normalizeOutput(message).includes(test.expected)) ? "PASS" : "FAIL";
     return { ...value, expected: test.expected };
   })();
   try {
@@ -269,7 +269,7 @@ async function exportResults() {
     "테스트",
     "판정",
     "기대 출력",
-    "실제 마지막 말풍선",
+    "입력 후 말풍선",
     "설명",
     "사용 입력 수",
     "전체 입력 수",

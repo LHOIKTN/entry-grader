@@ -91,7 +91,7 @@ async function writeReport(file, results, metadata = {}) {
       { header: "테스트", key: "test", width: 10 },
       { header: "판정", key: "verdict", width: 16 },
       { header: "기대 출력", key: "expected", width: 34 },
-      { header: "실제 마지막 말풍선", key: "actual", width: 34 },
+      { header: "입력 후 말풍선", key: "actual", width: 34 },
       { header: "설명", key: "detail", width: 48 },
       { header: "사용 입력 수", key: "inputsUsed", width: 16 },
       { header: "전체 입력 수", key: "inputCount", width: 16 },
@@ -111,7 +111,7 @@ async function writeReport(file, results, metadata = {}) {
       {
         key: "출력 비교",
         value:
-          "정답 문자열이 마지막 말하기 말풍선에 포함되면 통과. 앞뒤 공백·줄바꿈 무시. 질문 제외.",
+          "정답 문자열이 입력 후 말하기 말풍선에 포함되면 통과. 앞뒤 공백·줄바꿈 무시. 질문 제외.",
       },
       {
         key: "채점 상태",

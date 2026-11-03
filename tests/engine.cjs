@@ -2,6 +2,11 @@ const assert = require("node:assert/strict");
 const { b, text, answer, say, ask, project } = require("./fixture.cjs");
 async function run({ executeCase, loadEnt }) {
   const cases = [
+    ["입력 후 중간 답안도 통과", project([ask(),say("정답은 120"),say("끝")]), ["5"], "120", "PASS", 5000],
+    ["입력 전 답안 제외", project([say("120"),ask(),say("끝")]), ["5"], "120", "FAIL", 5000],
+    ["마지막 입력 전 답안 제외", project([ask(),say("120"),ask(),say("끝")]), ["1","2"], "120", "FAIL", 5000],
+    ["말풍선끼리 이어 붙여 일치시키지 않음", project([say("12"),say("0")]), [], "120", "FAIL", 5000],
+    ["입력 후 출력 없음", project([say("안내"),ask()]), ["5"], "안내", "NO_OUTPUT", 5000],
     ["추가 문구를 포함한 정답", project([say("정답은 120입니다")]), [], "120", "PASS", 5000],
     [
       "묻고 기다리기 / 질문 제외 / 마지막 말풍선",
