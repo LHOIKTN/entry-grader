@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self'; script-src 'self'"
+    />
+    <title>엔트리 자동채점</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="eyebrow">ENTRY · LOCAL GRADER</div>
+      <h1>엔트리 자동채점</h1>
+      <p>입력을 한 줄씩 전달하고, 마지막 말풍선을 정답과 비교합니다.</p>
+    </header>
+    <main>
+      <section class="setup">
+        <div class="choice">
+          <label>1. 학생 제출 폴더</label>
+          <div>
+            <button id="submissions">폴더 선택</button
+            ><span id="submissionsPath"
+              >문제 폴더 또는 문제1~3이 있는 상위 폴더</span
+            >
+          </div>
+        </div>
+        <div class="choice">
+          <label>2. 테스트 케이스 폴더</label>
+          <div>
+            <button id="tests">폴더 선택</button
+            ><span id="testsPath">input1.txt · output1.txt가 있는 폴더</span>
+          </div>
+        </div>
+        <div class="actions">
+          <label
+            >케이스당 제한 시간
+            <input id="timeout" type="number" value="30" min="1" max="300" />
+            초</label
+          ><button id="start" class="primary">채점 시작</button
+          ><button id="cancel" disabled>중단</button>
+        </div>
+        <p class="hint">
+          상위 폴더를 선택하면 테스트 폴더에도 문제1 / 문제2 / 문제3 폴더를
+          만들어 주세요. 질문 말풍선은 제외하며, 출력 앞뒤 공백·줄바꿈만
+          무시합니다.
+        </p>
+      </section>
+      <section class="status">
+        <div>
+          <strong id="status">채점 준비</strong><span id="counter">0 / 0</span>
+        </div>
+        <progress id="progress" value="0" max="1"></progress>
+        <p id="current">
+          제출물은 수정하지 않습니다. 모든 실행은 이 컴퓨터에서 이루어집니다.
+        </p>
+      </section>
+      <section class="results">
+        <div class="resultHead">
+          <h2>채점 결과 <span id="summary"></span></h2>
+          <button id="export" disabled>Excel로 저장</button>
+        </div>
+        <div class="tableScroll">
+          <table>
+            <thead>
+              <tr>
+                <th>학생 / 문제</th>
+                <th>테스트</th>
+                <th>판정</th>
+                <th>기대 출력</th>
+                <th>마지막 말풍선</th>
+              </tr>
+            </thead>
+            <tbody id="rows">
+              <tr id="empty">
+                <td colspan="5">
+                  채점을 시작하면 테스트별 결과가 여기에 표시됩니다.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <details>
+        <summary>입력·정답 파일 작성 방법</summary>
+        <p>
+          묻고 대답 기다리기 블록의 답변을 input1.txt에 한 줄씩 씁니다. 마지막
+          말하기 내용 전체를 output1.txt에 씁니다. input2.txt / output2.txt처럼
+          같은 번호로 테스트를 추가할 수 있습니다.
+        </p>
+        <p>
+          안내 문구를 포함한 마지막 말풍선 전체가 비교 대상입니다. 숫자만
+          추출하거나 소수점 오차를 임의로 허용하지 않습니다. 무한 반복·추가 입력
+          요구는 별도 판정하며 점수는 배점 기준 없이 자동 부여하지 않습니다.
+        </p>
+      </details>
+      <footer id="engine">실제 EntryJS 엔진 · 오프라인 실행</footer>
+    </main>
+    <script src="ui.js"></script>
+  </body>
+</html>

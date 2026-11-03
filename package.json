@@ -1,0 +1,24 @@
+{
+  "name": "entry-grader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "실제 EntryJS 엔진으로 마지막 말풍선을 비교하는 로컬 자동채점기",
+  "main": "src/main.cjs",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.cjs",
+    "prepare:runtime": "node scripts/prepare-runtime.cjs",
+    "build:mac": "node scripts/build-mac.cjs",
+    "test:engine": "electron . --self-test",
+    "test:ui": "node tests/ui.cjs"
+  },
+  "dependencies": {
+    "exceljs": "4.4.0",
+    "tar": "7.5.22"
+  },
+  "devDependencies": {
+    "electron": "45.2.1",
+    "playwright": "1.64.1"
+  }
+}

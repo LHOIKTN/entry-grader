@@ -1,0 +1,10 @@
+node_modules/
+runtime/
+dist/
+results/
+submissions/
+*.ent
+*.csv
+.DS_Store
+*.log
+.env*
