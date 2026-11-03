@@ -82,7 +82,7 @@ async function executeCase(project, test, timeoutMs) {
     );
     if (value.status === "COMPLETED")
       value.status =
-        normalizeOutput(value.actual) === test.expected ? "PASS" : "FAIL";
+        normalizeOutput(value.actual).includes(test.expected) ? "PASS" : "FAIL";
     return { ...value, expected: test.expected };
   })();
   try {

@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const { b, text, answer, say, ask, project } = require("./fixture.cjs");
 async function run({ executeCase, loadEnt }) {
   const cases = [
+    ["추가 문구를 포함한 정답", project([say("정답은 120입니다")]), [], "120", "PASS", 5000],
     [
       "묻고 기다리기 / 질문 제외 / 마지막 말풍선",
       project([say("안내"), ask(), say("중간"), ask(), say(answer())]),

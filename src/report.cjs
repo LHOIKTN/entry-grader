@@ -111,7 +111,7 @@ async function writeReport(file, results, metadata = {}) {
       {
         key: "출력 비교",
         value:
-          "마지막 말하기 말풍선 전체. 앞뒤 공백 및 줄바꿈만 무시. 질문 말풍선 제외.",
+          "정답 문자열이 마지막 말하기 말풍선에 포함되면 통과. 앞뒤 공백·줄바꿈 무시. 질문 제외.",
       },
       {
         key: "채점 상태",
