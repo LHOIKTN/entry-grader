@@ -4,6 +4,15 @@ const fs = require("node:fs"),
   cp = require("node:child_process"),
   crypto = require("node:crypto");
 const root = path.resolve(__dirname, "..");
+if (!process.argv[2]) {
+  const archive = path.join(root, "vendor/entry-runtime.tar.gz");
+  const expected = fs.readFileSync(archive + ".sha256", "utf8").trim();
+  const actual = crypto.createHash("sha256").update(fs.readFileSync(archive)).digest("hex");
+  if (actual !== expected) throw Error("실행 엔진 묶음의 체크섬이 다릅니다.");
+  require("tar").x({ file: archive, cwd: root, sync: true, strict: true });
+  console.log("저장소에 포함된 검증된 실행 엔진을 준비했습니다.");
+  return;
+}
 const entry = path.resolve(process.argv[2] || "../entry/entryjs");
 const offline = path.resolve(process.argv[3] || "../entry/entry-offline");
 const out = path.join(root, "runtime");

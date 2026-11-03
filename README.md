@@ -53,13 +53,29 @@ UTF-8 텍스트를 사용합니다. `inputN.txt`의 한 줄이 `묻고 대답 �
 
 키보드/마우스 이벤트, 하드웨어, AI, 외부 서버 입력을 요구하는 문제는 이 입력 파일 채점 방식의 대상이 아닙니다. 실행 환경에서 외부 네트워크·장치 권한은 차단합니다. 원본 제출물은 읽기만 하며 수정하거나 서버에 업로드하지 않습니다.
 
-## 개발 및 빌드
+## Windows 빌드
 
-Node.js 22.13 이상과 macOS가 필요합니다. 저장소는 기존 엔트리 프로젝트와 독립적입니다. 대용량 엔진은 Git에 넣지 않고 빌드 시 준비합니다.
+**이 저장소만 받으면 됩니다.** 검증한 EntryJS 브라우저 실행 자산은 `vendor/entry-runtime.tar.gz`에 포함되어 있습니다. 다른 엔트리 소스를 따로 받거나 빌드할 필요가 없습니다.
+
+Windows 10/11 64비트에 Node.js 22.13 이상과 Git을 설치한 뒤 PowerShell에서 실행합니다.
+
+```powershell
+git clone https://github.com/LHOIKTN/entry-grader.git
+cd entry-grader
+npm ci
+npm run prepare:runtime
+npm run build:win
+```
+
+일반적인 x64 PC에서는 `dist/entry-grader-win-x64/EntryGrader.exe`를 실행합니다. 다른 PC로 옮길 때는 **entry-grader-win-x64 폴더 전체**를 복사하세요. exe 하나만 옮기면 실행되지 않습니다. 빌드된 앱을 실행하는 PC에는 Node.js나 소스가 필요 없습니다. Windows 설치 프로그램 형태는 아니며, 서명되지 않은 휴대용 실행 폴더입니다.
+
+이미 clone한 폴더에서는 `git pull` 후 나머지 명령을 실행하면 됩니다. Mac의 node_modules나 .app을 Windows로 복사하지 마세요. Windows에서 npm ci를 실행해야 Windows용 Electron이 준비됩니다. 첫 의존성 설치에는 인터넷이 필요하고, 앱 실행·채점은 로컬에서 진행됩니다.
+
+## 개발 및 Mac 빌드
 
 ```sh
 npm ci
-npm run prepare:runtime -- /경로/entryjs /경로/entry-offline
+npm run prepare:runtime
 npm test
 npm run test:engine
 npm run test:ui
@@ -67,15 +83,17 @@ npm start
 npm run build:mac
 ```
 
-`prepare:runtime`은 빌드된 EntryJS(`dist/entry.js`, `dist/entry.css`)와 설치된 의존성이 있는 entry-offline 체크아웃에서 필요한 자산을 복사합니다. 두 경로를 생략하면 `../entry/entryjs`, `../entry/entry-offline`을 사용합니다. 해당 저장소에서 먼저 의존성 설치 및 빌드를 완료해야 합니다.
+Mac 빌드는 현재 Mac 아키텍처용 `dist/엔트리 자동채점.app`을 만듭니다. 앱에는 엔진과 필요한 라이브러리가 포함되어 있습니다.
 
-- EntryJS: https://github.com/entrylabs/entryjs
-- Entry Offline: https://github.com/entrylabs/entry-offline
-- 검증한 EntryJS: 4.0.22, 커밋 `e303f805501604c07a96763633e522543788b221`
+엔진 자산을 직접 교체하는 개발자만 다음 명령으로 빌드된 EntryJS 및 설치된 Entry Offline 소스에서 자산을 다시 준비합니다.
 
-`runtime/manifest.json`에 실제 엔진 커밋과 배포 JS의 SHA-256을 기록합니다. 다른 버전으로 교체하면 엔진 테스트를 다시 실행하세요. 원본 엔진의 실행 규칙은 변경하지 않고, 말풍선 생성 관찰과 공식 입력 완료 이벤트만 연결합니다.
+```sh
+npm run prepare:runtime -- /경로/entryjs /경로/entry-offline
+```
 
-Mac 빌드는 현재 Mac 아키텍처용 `.app`을 만듭니다. 로컬 실행용 ad-hoc 서명이며 Apple 공증을 거친 배포본은 아닙니다. 앱에는 엔진과 필요한 라이브러리가 포함되어 Node.js나 기존 엔트리 폴더 없이 실행할 수 있습니다.
+`runtime/manifest.json`에 엔진 커밋과 JS의 SHA-256이 기록됩니다. 버전을 교체하면 엔진 테스트도 다시 실행하세요. 실행 규칙은 그대로 두고 말풍선 관찰과 입력 완료 이벤트를 연결합니다.
+
+현재 Mac에서 실제 엔진 실행, 재귀 함수가 있는 제출물, 질문 입력과 마지막 말풍선 수집, Excel 저장을 검증했습니다. Windows 빌드 스크립트는 추가했지만 실제 Windows에서 실행 검증하지는 않았습니다.
 
 ## Git
 

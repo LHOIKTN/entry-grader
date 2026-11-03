@@ -11,7 +11,8 @@
     "prepare:runtime": "node scripts/prepare-runtime.cjs",
     "build:mac": "node scripts/build-mac.cjs",
     "test:engine": "electron . --self-test",
-    "test:ui": "node tests/ui.cjs"
+    "test:ui": "node tests/ui.cjs",
+    "build:win": "node scripts/build-win.cjs"
   },
   "dependencies": {
     "exceljs": "4.4.0",
